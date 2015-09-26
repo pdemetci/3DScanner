@@ -24,7 +24,7 @@ const int analogOutPin = 9; // Analog output pin that the LED is attached to
 int sensorValue = 0;        // value read from the pot
 int outputValue = 0;        // value output to the PWM (analog out)
 int array[]= {0};
-PrintWriter output;
+
 void setup() 
 { 
 
@@ -32,7 +32,6 @@ void setup()
   pinMode(A0, INPUT);
   verticalServo.attach(4);  // attaches the servo on pin 9 to the servo object 
   horizontalServo.attach(5);
-  output = createWriter( "data.txt" );
   Serial.begin(9600); 
  } 
  
@@ -46,13 +45,6 @@ void loop()
       outputValue = map(sensorValue, 0, 1023, 0, 255);
       analogWrite(analogOutPin, outputValue);
       Serial.println(outputValue);
-   if (mySerial.available() > 0 ) {
-         String value = mySerial.readString();
-         if ( value != null ) {
-              output.println( value );
-         }
-    }
-    
       verticalServo.write(pos_vertical);
       delay(15);
     }
@@ -64,12 +56,6 @@ void loop()
       Serial.print(",");
       Serial.print(pos_vertical);
       Serial.print(pos_horizontal);
-       if (mySerial.available() > 0 ) {
-         String value = mySerial.readString();
-         if ( value != null ) {
-              output.println( value );
-         }
-    }
       verticalServo.write(pos_vertical);
         delay(15); 
     }
@@ -85,10 +71,6 @@ void loop()
        Serial.print(",");
       Serial.print(pos_vertical);
       Serial.print(pos_horizontal);
-      if ( value != null ) {
-         output.println( value );
-         }
-    }
       verticalServo.write(pos_vertical);
       delay(15);
     }
@@ -100,15 +82,10 @@ void loop()
       Serial.print(",");
       Serial.print(pos_vertical);
       Serial.print(pos_horizontal);
-       if ( value != null ) {
-         output.println( value );
-         }
-    }
       verticalServo.write(pos_vertical);
       delay(15);
     }
   }
-    output.flush();  // Writes the remaining data to the file
-    output.close();  // Finishes the file
+
     exit();  // Stops the program
   } 
